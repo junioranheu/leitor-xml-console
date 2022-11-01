@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-bool resetarBd = false;
+
 
 Console.WriteLine("Iniciando projeto");
 var config = new ConfigurationBuilder()
@@ -26,6 +26,7 @@ var serviceProvider = new ServiceCollection()
                      .BuildServiceProvider();
 
 bool isContinuar = true;
+bool resetarBd = false;
 if (resetarBd)
 {
     try
@@ -48,14 +49,17 @@ if (isContinuar)
 {
     Console.WriteLine("\nIniciando leitura dos arquivos XMLs");
     var pais = serviceProvider.GetService<IPaisInterface>();
-    Pais[]? xmlPaises = await pais?.GetPaises();
+    List<Pais> xmlPaises = await pais?.GetPaises();
 
-    Console.WriteLine($"\nResultado: {xmlPaises?.Length}");
+    Console.WriteLine($"\nResultado: {xmlPaises?.Count}");
     if (xmlPaises is not null)
     {
         foreach (var item in xmlPaises)
         {
-            Console.WriteLine($"Código: +{item.Codigo} | País: {item.Nome}");
+            string? codigo = item?.Codigo == "-" ? "N/A" : $"+{item?.Codigo}";
+            string? nome = item?.Nome == "-" ? "N/A" : item?.Nome;
+
+            Console.WriteLine($"Código: {codigo} | País: {nome}");
         }
     }
 }

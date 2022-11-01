@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<PaisContainer>
+	<Paises>
+		<Pais>
+			<Codigo>505</Codigo>
+			<Nome>Nicarágua</Nome>
+		</Pais>
+
+		<Pais>
+			<Codigo></Codigo>
+			<Nome></Nome>
+		</Pais>
+	</Paises>
+</PaisContainer>

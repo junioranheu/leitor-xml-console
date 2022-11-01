@@ -4,10 +4,10 @@ namespace LeitorXML.Enums
 {
     public enum ListaXmlsEnum
     {
-        [Description("paises.xml")]
-        Paises = 1,
+        [Description("pais")]
+        Pais = 1,
 
-        [Description("teste.xml")]
+        [Description("teste")]
         Teste = 2
     }
 }

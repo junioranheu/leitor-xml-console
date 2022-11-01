@@ -16,33 +16,45 @@ namespace LeitorXML.Repositories
             _context = context;
         }
 
-        public async Task<Pais[]>? GetPaises()
+        public async Task<List<Pais>>? GetPaises()
         {
-            XmlSerializer ser = new(typeof(PaisContainer));
-            FileStream myFileStream = new(AppContext.BaseDirectory + $"\\XML\\{GetDescricaoEnum(ListaXmlsEnum.Paises)}", FileMode.Open);
+            string[] xmls = Directory.GetFiles(AppContext.BaseDirectory + $"\\XML\\{GetDescricaoEnum(ListaXmlsEnum.Pais)}\\", "*.xml", SearchOption.TopDirectoryOnly);
 
-            Pais[]? xmlPaises = ((PaisContainer)ser.Deserialize(myFileStream)).Paises;
-
-            if (xmlPaises is not null)
+            if (xmls?.Length > 0)
             {
+                XmlSerializer ser = new(typeof(PaisContainer));
                 List<Pais> listaPaises = new();
 
-                foreach (var item in xmlPaises)
+                foreach (var xml in xmls)
                 {
-                    Pais pais = new()
-                    {
-                        Codigo = item.Codigo ?? "",
-                        Nome = item.Nome ?? ""
-                    };
+                    FileStream fileStream = new(xml, FileMode.Open);
+                    Pais[]? xmlPaises = ((PaisContainer)ser.Deserialize(fileStream)).Paises;
 
-                    listaPaises.Add(pais);
+                    if (xmlPaises is not null)
+                    {
+                        foreach (var item in xmlPaises)
+                        {
+                            Pais pais = new()
+                            {
+                                Codigo = !String.IsNullOrEmpty(item.Codigo) ? item.Codigo : "-",
+                                Nome = !String.IsNullOrEmpty(item.Nome) ? item.Nome : "-"
+                            };
+
+                            listaPaises.Add(pais);
+                        }
+                    }
                 }
 
-                await _context.AddRangeAsync(listaPaises);
-                await _context.SaveChangesAsync();
+                if (listaPaises?.Count > 0)
+                {
+                    await _context.AddRangeAsync(listaPaises);
+                    await _context.SaveChangesAsync();
+                }
+
+                return listaPaises;
             }
 
-            return xmlPaises;
+            return null;
         }
     }
 }

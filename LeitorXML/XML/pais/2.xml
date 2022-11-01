@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<PaisContainer>
+	<Paises>
+		<Pais>
+			<Codigo>53</Codigo>
+			<Nome>Cuba</Nome>
+		</Pais>
+
+		<Pais>
+			<Codigo>58</Codigo>
+			<Nome>Venezuela</Nome>
+		</Pais>
+	</Paises>
+</PaisContainer>
