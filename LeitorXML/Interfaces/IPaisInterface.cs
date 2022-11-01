@@ -4,6 +4,6 @@ namespace LeitorXML.Interfaces
 {
     internal interface IPaisInterface
     {
-        Pais[] GetPaises();
+        Task<Pais[]>? GetPaises();
     }
 }
